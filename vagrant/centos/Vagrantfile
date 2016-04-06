@@ -1,0 +1,15 @@
+Vagrant.configure(2) do |config|
+  config.vm.box = "centos65"
+  config.vm.network "private_network", ip: "192.168.33.10"
+  
+  # Omnibus
+  # 以下のコマンドでvagrant-omnibusをインストールしておくこと。
+  # vagrant plugin install vagrant-omnibus
+  config.omnibus.chef_version = :latest
+
+  # Chef
+  config.vm.provision "chef_solo" do |chef|
+    chef.cookbooks_path = ["../cookbooks"]
+    chef.add_recipe "postgresql::server"
+  end
+end
